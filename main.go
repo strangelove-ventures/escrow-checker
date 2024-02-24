@@ -52,11 +52,11 @@ func main() {
 	re := regexp.MustCompile(pathPattern)
 
 	// Get all denom traces & filter to end up with only multi-wrapped IBC assets.
-	var assetInfo []AssetInfo
+	var assetInfo []*AssetInfo
 
 	for _, denom := range res {
 		if isMultiHopAsset(re, denom.Path) {
-			assetInfo = append(assetInfo, AssetInfo{
+			assetInfo = append(assetInfo, &AssetInfo{
 				Denom: denom,
 			})
 		}
@@ -78,23 +78,30 @@ func main() {
 			panic(err)
 		}
 
+		// TODO: debug output remove
+		fmt.Printf("Counterparty chain ID: %s \n", cs.ChainId)
+
 		info.CounterpartyChainID = cs.ChainId
 	}
 
-	// Query for the escrow account address and it's balance for the relevant IBC denoms.
+	// Query for the escrow account address and its balance for the relevant IBC denoms.
 	for _, info := range assetInfo {
 		addr, err := c.QueryEscrowAddress(ctx, info.PortID, info.ChannelID)
 		if err != nil {
 			panic(err)
 		}
 
+		// TODO: debug output remove
 		fmt.Printf("Escrow Addr: %s \n", addr)
+
+		info.EscrowAddress = addr
 
 		bal, err := c.QueryBalance(ctx, addr, info.Denom.IBCDenom())
 		if err != nil {
 			panic(err)
 		}
 
+		// TODO: debug output remove
 		fmt.Printf("Token %s amount: %s \n", info.Denom.String(), bal)
 
 		info.EscrowBalance = bal
@@ -104,20 +111,23 @@ func main() {
 	for _, info := range assetInfo {
 		client, err := clients.clientByChainID(info.CounterpartyChainID)
 		if err != nil {
-			panic(err)
+			fmt.Println(err)
+			continue
 		}
 
 		// Find the index of the first match
 		firstMatchIndex := re.FindStringIndex(info.Denom.Path)
 
 		// Remove the first match from the input string
-		denom := info.Denom.Path[:firstMatchIndex[0]] + info.Denom.Path[firstMatchIndex[1]:]
+		path := info.Denom.Path[:firstMatchIndex[0]] + info.Denom.Path[firstMatchIndex[1]+1:]
 
-		amount, err := client.QueryBankTotalSupply(ctx, denom)
+		denom := transfertypes.ParseDenomTrace(fmt.Sprintf("%s/%s", path, info.Denom.BaseDenom))
+		amount, err := client.QueryBankTotalSupply(ctx, denom.IBCDenom())
 		if err != nil {
 			panic(err)
 		}
 
+		// TODO: debug output remove
 		fmt.Printf("Total supply of %s on chain %s: %s \n", info.Denom.IBCDenom(), info.CounterpartyChainID, amount)
 
 		info.CounterpartyBalance = amount
@@ -125,9 +135,9 @@ func main() {
 
 	// Assert that the escrow account balance is equal to the total supply on the counterparty.
 	for _, info := range assetInfo {
-		if info.EscrowBalance != info.CounterpartyBalance {
+		if !info.EscrowBalance.Equal(info.CounterpartyBalance) {
 			fmt.Println("--------------------------------------------")
-			fmt.Printf("Discrepancy found!")
+			fmt.Println("Discrepancy found!")
 			fmt.Printf("Counterparty Chain ID: %s \n", info.CounterpartyChainID)
 			fmt.Printf("Escrow Account Address: %s \n", info.EscrowAddress)
 			fmt.Printf("Asset IBC Denom: %s \n", info.Denom.IBCDenom())
