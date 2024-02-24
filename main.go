@@ -16,8 +16,9 @@ import (
 )
 
 const (
-	configPath  = "./config/config.yaml"
-	pathPattern = `transfer/channel-\d+`
+	configPath    = "./config/config.yaml"
+	pathPattern   = `transfer/channel-\d+`
+	targetChainID = "noble-1"
 )
 
 type AssetInfo struct {
@@ -41,6 +42,7 @@ func main() {
 		panic(err)
 	}
 
+	// TODO: either run the program for every configured chain or use a target chain ID to select the correct client
 	c := clients[1]
 
 	ctx := context.Background()
