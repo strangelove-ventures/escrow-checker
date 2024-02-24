@@ -1,0 +1,11 @@
+chains:
+  - name: Osmosis
+    chain-id: osmosis-1
+    account-prefix: osmosis
+    rpc-address: https://rpc.osmosis.strange.love:443
+    timeout: 30s
+  - name: Noble
+    chain-id: noble-1
+    account-prefix: noble
+    rpc-address: https://rpc.noble.strange.love:443
+    timeout: 30s
