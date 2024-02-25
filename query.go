@@ -21,6 +21,23 @@ import (
 
 const paginationDelay = 10 * time.Millisecond
 
+func (c *Client) QueryBalances(ctx context.Context, addr string) (*banktypes.QueryAllBalancesResponse, error) {
+	qc := banktypes.NewQueryClient(c)
+
+	req := &banktypes.QueryAllBalancesRequest{
+		Address:      addr,
+		Pagination:   defaultPageRequest(),
+		ResolveDenom: true,
+	}
+
+	res, err := qc.AllBalances(ctx, req, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return res, nil
+}
+
 func (c *Client) QueryBalance(ctx context.Context, addr, denom string) (sdktypes.Coin, error) {
 	qc := banktypes.NewQueryClient(c)
 
@@ -36,6 +53,7 @@ func (c *Client) QueryBalance(ctx context.Context, addr, denom string) (sdktypes
 
 	return *res.Balance, nil
 }
+
 func (c *Client) QueryBankTotalSupply(ctx context.Context, denom string) (sdktypes.Coin, error) {
 	var (
 		qc  = banktypes.NewQueryClient(c)
@@ -66,6 +84,21 @@ func (c *Client) QueryEscrowAddress(ctx context.Context, portID, channelID strin
 	return res.EscrowAddress, nil
 }
 
+func (c *Client) QueryTotalEscrowForDenom(ctx context.Context, denom string) (sdktypes.Coin, error) {
+	qc := transfertypes.NewQueryClient(c)
+
+	req := &transfertypes.QueryTotalEscrowForDenomRequest{
+		Denom: denom,
+	}
+
+	res, err := qc.TotalEscrowForDenom(ctx, req)
+	if err != nil {
+		return sdktypes.Coin{}, err
+	}
+
+	return res.Amount, nil
+}
+
 func (c *Client) QueryEscrowAmount(ctx context.Context, denom string) (sdktypes.Coin, error) {
 	var (
 		qc  = transfertypes.NewQueryClient(c)
@@ -93,6 +126,20 @@ func (c *Client) QueryDenomHash(ctx context.Context, denomTrace string) (string,
 	}
 
 	return res.Hash, nil
+}
+
+func (c *Client) QueryDenomTrace(ctx context.Context, hash string) (*transfertypes.DenomTrace, error) {
+	var (
+		qc  = transfertypes.NewQueryClient(c)
+		req = &transfertypes.QueryDenomTraceRequest{Hash: hash}
+	)
+
+	res, err := qc.DenomTrace(ctx, req, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return res.DenomTrace, nil
 }
 
 func (c *Client) QueryDenomTraces(ctx context.Context, offset, limit uint64, height int64) ([]transfertypes.DenomTrace, error) {
