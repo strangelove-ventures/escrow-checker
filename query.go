@@ -193,6 +193,24 @@ func (c *Client) QueryChannelClientState(
 	return res, nil
 }
 
+func (c *Client) QueryChannel(ctx context.Context, channelID string) (*chantypes.IdentifiedChannel, error) {
+	qc := chantypes.NewQueryClient(c)
+
+	const portID = "transfer"
+	req := &chantypes.QueryChannelRequest{
+		PortId:    portID,
+		ChannelId: channelID,
+	}
+
+	resp, err := qc.Channel(ctx, req, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	ch := chantypes.NewIdentifiedChannel(portID, channelID, *resp.Channel)
+	return &ch, nil
+}
+
 // QueryChannels returns all the channels that are registered on a chain.
 func (c *Client) QueryChannels(ctx context.Context) ([]*chantypes.IdentifiedChannel, error) {
 	p := defaultPageRequest()

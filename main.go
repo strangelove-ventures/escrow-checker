@@ -17,7 +17,13 @@ import (
 
 const (
 	configPath    = "./config/config.yaml"
-	targetChainID = "noble-1"
+	targetChainID = "osmosis-1"
+)
+
+var (
+	// targetChannels should be an empty slice if you want to run the escrow checker against every escrow account.
+	// Otherwise, add the channel-ids associated with escrow accounts you want to target.
+	targetChannels = []string{"channel-782", "channel-783"}
 )
 
 type Info struct {
@@ -44,7 +50,8 @@ func main() {
 	}
 
 	ctx := context.Background()
-	channels, err := c.QueryChannels(ctx)
+
+	channels, err := queryChannels(ctx, c)
 	if err != nil {
 		panic(err)
 	}
@@ -75,10 +82,10 @@ func main() {
 		}
 
 		// TODO: debug output that can be removed
-		fmt.Printf("Escrow Address: %s \n", addr)
-		for _, bal := range bals.Balances {
-			fmt.Printf("Balance: %s \n", bal)
-		}
+		//fmt.Printf("Escrow Address: %s \n", addr)
+		//for _, bal := range bals.Balances {
+		//	fmt.Printf("Balance: %s \n", bal)
+		//}
 
 		infos[i] = &Info{
 			Channel:             channel,
@@ -115,7 +122,7 @@ func main() {
 			}
 
 			// TODO: debug output that can be removed
-			fmt.Printf("Denom Trace: %s \n", denom)
+			//fmt.Printf("Denom Trace: %s \n", denom)
 
 			path := fmt.Sprintf("%s/%s/%s", info.Channel.Counterparty.PortId, info.Channel.Counterparty.ChannelId, denom.Path)
 			counterpartyDenom := transfertypes.ParseDenomTrace(fmt.Sprintf("%s/%s", path, denom.BaseDenom))
@@ -126,14 +133,15 @@ func main() {
 			}
 
 			// TODO: debug output that can be removed
-			fmt.Printf("Escrow account balance: %s \n", bal.Amount)
-			fmt.Printf("Counterparty Total Supply: %s \n", amount.Amount)
+			//fmt.Printf("Escrow account balance: %s \n", bal.Amount)
+			//fmt.Printf("Counterparty Total Supply: %s \n", amount.Amount)
 
 			if !bal.Amount.Equal(amount.Amount) {
 				fmt.Println("--------------------------------------------")
 				fmt.Println("Discrepancy found!")
 				fmt.Printf("Counterparty Chain ID: %s \n", info.CounterpartyChainID)
 				fmt.Printf("Escrow Account Address: %s \n", info.EscrowAddress)
+				fmt.Printf("Asset Base Denom: %s \n", denom.BaseDenom)
 				fmt.Printf("Asset IBC Denom: %s \n", bal.Denom)
 				fmt.Printf("Escrow Balance: %s \n", bal.Amount)
 				fmt.Printf("Counterparty Total Supply: %s \n", amount)
@@ -171,4 +179,29 @@ func clientsFromConfig(cfg *Config) (Clients, error) {
 	}
 
 	return clients, nil
+}
+
+func queryChannels(ctx context.Context, c *Client) ([]*chantypes.IdentifiedChannel, error) {
+	var (
+		channels []*chantypes.IdentifiedChannel
+		err      error
+	)
+
+	if len(targetChannels) == 0 {
+		channels, err = c.QueryChannels(ctx)
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		for _, id := range targetChannels {
+			channel, err := c.QueryChannel(ctx, id)
+			if err != nil {
+				return nil, err
+			}
+
+			channels = append(channels, channel)
+		}
+	}
+
+	return channels, nil
 }
