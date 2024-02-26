@@ -12,35 +12,45 @@ chains:
   - name: Injective
     chain-id: injective-1
     account-prefix: inj
-    rpc-addr: https://rpc-injective.goldenratiostaking.net:443
+    rpc-address: https://rpc-injective.goldenratiostaking.net:443
     timeout: 30s
   - name: Stargaze
     chain-id: stargaze-1
     account-prefix: stars
-    rpc-addr: https://rpc.stargaze-apis.com:443
+    rpc-address: https://rpc.stargaze-apis.com:443
     timeout: 30s
   - name: Archway
     chain-id: archway-1
     account-prefix: archway
-    rpc-addr: https://rpc.mainnet.archway.io:443
+    rpc-address: https://rpc.mainnet.archway.io:443
     timeout: 30s
   - name: Composable
     chain-id: centauri-1
     account-prefix: centauri
-    rpc-addr: https://rpc-composable-ia.cosmosia.notional.ventures:443
+    rpc-address: https://rpc-composable-ia.cosmosia.notional.ventures:443
     timeout: 30s
   - name: Migaloo
     chain-id: migaloo-1
     account-prefix: migaloo
-    rpc-addr: https://migaloo-rpc.polkachu.com:443
+    rpc-address: https://migaloo-rpc.polkachu.com:443
     timeout: 30s
   - name: Neutron
     chain-id: neutron-1
     account-prefix: neutron
-    rpc-addr: https://rpc.novel.remedy.tm.p2p.org:443
+    rpc-address: https://rpc.novel.remedy.tm.p2p.org:443
     timeout: 30s
   - name: DyDx
     chain-id: dydx-mainnet-1
     account-prefix: dydx
-    rpc-addr: https://dydx-rpc.lavenderfive.com:443
+    rpc-address: https://dydx-rpc.lavenderfive.com:443
+    timeout: 30s
+  - name: Nolus
+    chain-id: pirin-1
+    account-prefix: nolus
+    rpc-address: https://pirin-cl.nolus.network:26657
+    timeout: 30s
+  - name: Sei
+    chain-id: pacific-1
+    account-prefix: sei
+    rpc-address: https://sei-rpc.polkachu.com:443
     timeout: 30s
