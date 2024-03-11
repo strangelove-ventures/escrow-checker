@@ -1,56 +1,681 @@
 chains:
-  - name: Osmosis
-    chain-id: osmosis-1
-    account-prefix: osmosis
-    rpc-address: https://rpc.osmosis.strange.love:443
+  - name: acrechain
+    chain-id: acre_9052-1
+    account-prefix: acre
+    rpc-address: https://rpc-acre.synergynodes.com:443
     timeout: 30s
-  - name: Noble
-    chain-id: noble-1
-    account-prefix: noble
-    rpc-address: https://rpc.noble.strange.love:443
+  - name: agoric
+    chain-id: agoric-3
+    account-prefix: agoric
+    rpc-address: https://agoric-rpc.polkachu.com:443
     timeout: 30s
-  - name: Injective
-    chain-id: injective-1
-    account-prefix: inj
-    rpc-address: https://rpc-injective.goldenratiostaking.net:443
+  - name: aioz
+    chain-id: aioz_168-1
+    account-prefix: aioz
+    rpc-address: https://rpc-dataseed.aioz.network:443
     timeout: 30s
-  - name: Stargaze
-    chain-id: stargaze-1
-    account-prefix: stars
-    rpc-address: https://rpc.stargaze-apis.com:443
+  - name: akash
+    chain-id: akashnet-2
+    account-prefix: akash
+    rpc-address: https://akash-rpc.polkachu.com:443
     timeout: 30s
-  - name: Archway
+  - name: andromeda
+    chain-id: andromeda-1
+    account-prefix: andr
+    rpc-address: https://andromeda.rpc.nodex.one:443
+    timeout: 30s
+  - name: archway
     chain-id: archway-1
     account-prefix: archway
-    rpc-address: https://rpc.mainnet.archway.io:443
+    rpc-address: https://rpc-archway.theamsolutions.info:443
     timeout: 30s
-  - name: Composable
+  - name: assetmantle
+    chain-id: mantle-1
+    account-prefix: mantle
+    rpc-address: https://assetmantle-rpc.polkachu.com:443
+    timeout: 30s
+  - name: aura
+    chain-id: xstaxy-1
+    account-prefix: aura
+    rpc-address: http://aura.rpc.m.stavr.tech:11047:443
+    timeout: 30s
+  - name: axelar
+    chain-id: axelar-dojo-1
+    account-prefix: axelar
+    rpc-address: https://axelar-rpc.polkachu.com:443
+    timeout: 30s
+  - name: bandchain
+    chain-id: laozi-mainnet
+    account-prefix: band
+    rpc-address: https://rpc-band-01.stakeflow.io:443
+    timeout: 30s
+  - name: beezee
+    chain-id: beezee-1
+    account-prefix: bze
+    rpc-address: https://rpc.getbze.com:443
+    timeout: 30s
+  - name: bitcanna
+    chain-id: bitcanna-1
+    account-prefix: bcna
+    rpc-address: https://bitcanna-rpc.polkachu.com:443
+    timeout: 30s
+  - name: bitsong
+    chain-id: bitsong-2b
+    account-prefix: bitsong
+    rpc-address: http://bitsong.statesync.nodersteam.com:11657:443
+    timeout: 30s
+  - name: bluzelle
+    chain-id: bluzelle-9
+    account-prefix: bluzelle
+    rpc-address: https://c.client.sentry.net.bluzelle.com:26657:443
+    timeout: 30s
+  - name: bostrom
+    chain-id: bostrom
+    account-prefix: bostrom
+    rpc-address: https://rpc.bostrom.cybernode.ai:443
+    timeout: 30s
+  - name: canto
+    chain-id: canto_7700-1
+    account-prefix: canto
+    rpc-address: https://canto-rpc.polkachu.com:443
+    timeout: 30s
+  - name: carbon
+    chain-id: carbon-1
+    account-prefix: swth
+    rpc-address: https://carbon-rpc.lavenderfive.com:443
+    timeout: 30s
+  - name: celestia
+    chain-id: celestia
+    account-prefix: celestia
+    rpc-address: https://celestia-rpc.polkachu.com:443
+    timeout: 30s
+  - name: chain4energy
+    chain-id: perun-1
+    account-prefix: c4e
+    rpc-address: https://rpc.c4e.stakeup.tech:443
+    timeout: 30s
+  - name: cheqd
+    chain-id: cheqd-mainnet-1
+    account-prefix: cheqd
+    rpc-address: https://rpc-cheqd.blockval.io:443
+    timeout: 30s
+  - name: chihuahua
+    chain-id: chihuahua-1
+    account-prefix: chihuahua
+    rpc-address: https://chihuahua-rpc.polkachu.com:443
+    timeout: 30s
+  - name: chimba
+    chain-id: chimba
+    account-prefix: chimba
+    rpc-address: https://rpc.mainnet.chimba.ooo:443
+    timeout: 30s
+  - name: cifer
+    chain-id: cifer
+    account-prefix: cife
+    rpc-address: https://cif_node.cifer.ai:443
+    timeout: 30s
+  - name: comdex
+    chain-id: comdex-1
+    account-prefix: comdex
+    rpc-address: https://comdex-rpc.polkachu.com:443
+    timeout: 30s
+  - name: commercionetwork
+    chain-id: commercio-3
+    account-prefix: "com"
+    rpc-address: https://rpc-mainnet.commercio.network:443
+    timeout: 30s
+  - name: composable
     chain-id: centauri-1
     account-prefix: centauri
-    rpc-address: https://rpc-composable-ia.cosmosia.notional.ventures:443
+    rpc-address: https://composable.rpc.moonbridge.team:443
     timeout: 30s
-  - name: Migaloo
+  - name: conscious
+    chain-id: cvn_2032-1
+    account-prefix: cvn
+    rpc-address: https://rpc.cvn.io:443
+    timeout: 30s
+  - name: coreum
+    chain-id: coreum-mainnet-1
+    account-prefix: core
+    rpc-address: https://public.stakewolle.com/cosmos/coreum/rpc:443
+    timeout: 30s
+  - name: cosmoshub
+    chain-id: cosmoshub-4
+    account-prefix: cosmos
+    rpc-address: https://cosmos-rpc.polkachu.com:443
+    timeout: 30s
+  - name: coss
+    chain-id: coss-1
+    account-prefix: coss
+    rpc-address: https://coss-rpc.cias.network:443
+    timeout: 30s
+  - name: crescent
+    chain-id: crescent-1
+    account-prefix: cre
+    rpc-address: https://crescent-rpc.polkachu.com:443
+    timeout: 30s
+  - name: cronos
+    chain-id: cronosmainnet_25-1
+    account-prefix: crc
+    rpc-address: https://cronos-rpc.publicnode.com:443
+    timeout: 30s
+  - name: cryptoorgchain
+    chain-id: crypto-org-chain-mainnet-1
+    account-prefix: cro
+    rpc-address: https://cryptocom-rpc.polkachu.com:443
+    timeout: 30s
+  - name: cudos
+    chain-id: cudos-1
+    account-prefix: cudos
+    rpc-address: http://mainnet-full-node-01.hosts.cudos.org:26657:443
+    timeout: 30s
+  - name: decentr
+    chain-id: mainnet-3
+    account-prefix: decentr
+    rpc-address: https://poseidon.mainnet.decentr.xyz:443
+    timeout: 30s
+  - name: desmos
+    chain-id: desmos-mainnet
+    account-prefix: desmos
+    rpc-address: https://rpc.desmos.tcnetwork.io:443
+    timeout: 30s
+  - name: dig
+    chain-id: dig-1
+    account-prefix: dig
+    rpc-address: https://rpc-1-dig.notional.ventures:443
+    timeout: 30s
+  - name: doravota
+    chain-id: vota-ash
+    account-prefix: dora
+    rpc-address: https://m-dora.rpc.utsa.tech:443
+    timeout: 30s
+  - name: dydx
+    chain-id: dydx-mainnet-1
+    account-prefix: dydx
+    rpc-address: https://dydx-dao-rpc.polkachu.com:443
+    timeout: 30s
+  - name: dymension
+    chain-id: dymension_1100-1
+    account-prefix: dym
+    rpc-address: https://dym-m-rpc.agoranodes.com:443
+    timeout: 30s
+  - name: dyson
+    chain-id: dyson-mainnet-01
+    account-prefix: dys
+    rpc-address: https://dys-tm.dysonprotocol.com:443
+    timeout: 30s
+  - name: echelon
+    chain-id: echelon_3000-3
+    account-prefix: echelon
+    rpc-address: https://ech01trpc.mindheartsoul.org:443
+    timeout: 30s
+  - name: emoney
+    chain-id: emoney-3
+    account-prefix: emoney
+    rpc-address: https://emoney.validator.network:443
+    timeout: 30s
+  - name: empowerchain
+    chain-id: empowerchain-1
+    account-prefix: empower
+    rpc-address: https://rpc-empowerchain.mzonder.com:443
+    timeout: 30s
+  - name: evmos
+    chain-id: evmos_9001-2
+    account-prefix: evmos
+    rpc-address: https://evmos-rpc.polkachu.com:443
+    timeout: 30s
+  - name: fetchhub
+    chain-id: fetchhub-4
+    account-prefix: fetch
+    rpc-address: https://rpc-fetch.architectnodes.com:443
+    timeout: 30s
+  - name: finschia
+    chain-id: finschia-2
+    account-prefix: link
+    rpc-address: https://finschia-rpc.finschia.io:443
+    timeout: 30s
+  - name: firmachain
+    chain-id: colosseum-1
+    account-prefix: firma
+    rpc-address: https://firmachain-rpc.ramuchi.tech:443
+    timeout: 30s
+  - name: furya
+    chain-id: furya-1
+    account-prefix: furya
+    rpc-address: https://rpc.furya.xyz:443
+    timeout: 30s
+  - name: fxcore
+    chain-id: fxcore
+    account-prefix: fx
+    rpc-address: https://fx-json.functionx.io:443
+    timeout: 30s
+  - name: gateway
+    chain-id: wormchain
+    account-prefix: wormhole
+    rpc-address: https://wormchain-rpc.quickapi.com:443
+    timeout: 30s
+  - name: genesisl1
+    chain-id: genesis_29-2
+    account-prefix: genesis
+    rpc-address: https://26657.genesisl1.org:443
+    timeout: 30s
+  - name: gitopia
+    chain-id: gitopia
+    account-prefix: gitopia
+    rpc-address: https://gitopia-rpc.polkachu.com:443
+    timeout: 30s
+  - name: govgen
+    chain-id: govgen-1
+    account-prefix: govgen
+    rpc-address: https://rpc-govgen.sg-1.online:443
+    timeout: 30s
+  - name: gravitybridge
+    chain-id: gravity-bridge-3
+    account-prefix: gravity
+    rpc-address: https://gravity-rpc.polkachu.com:443
+    timeout: 30s
+  - name: haqq
+    chain-id: haqq_11235-1
+    account-prefix: haqq
+    rpc-address: https://haqq-rpc.publicnode.com:443
+    timeout: 30s
+  - name: humans
+    chain-id: humans_1089-1
+    account-prefix: human
+    rpc-address: https://humans.rpc.kjnodes.com:443
+    timeout: 30s
+  - name: impacthub
+    chain-id: ixo-5
+    account-prefix: ixo
+    rpc-address: https://ixo-rpc.ibs.team:443
+    timeout: 30s
+  - name: injective
+    chain-id: injective-1
+    account-prefix: inj
+    rpc-address: https://injective-rpc.publicnode.com:443
+    timeout: 30s
+  - name: irisnet
+    chain-id: irishub-1
+    account-prefix: iaa
+    rpc-address: https://rpc-irisnet-01.stakeflow.io:443
+    timeout: 30s
+  - name: jackal
+    chain-id: jackal-1
+    account-prefix: jkl
+    rpc-address: http://jkl.rpc.m.stavr.tech:11127:443
+    timeout: 30s
+  - name: juno
+    chain-id: juno-1
+    account-prefix: juno
+    rpc-address: https://rpc-juno.mib.tech:443
+    timeout: 30s
+  - name: kava
+    chain-id: kava_2222-10
+    account-prefix: kava
+    rpc-address: https://kava-rpc.polkachu.com:443
+    timeout: 30s
+  - name: kichain
+    chain-id: kichain-2
+    account-prefix: ki
+    rpc-address: https://kichain-rpc.polkachu.com:443
+    timeout: 30s
+  - name: konstellation
+    chain-id: darchub
+    account-prefix: darc
+    rpc-address: https://konstellation-rpc.stakerhouse.com:443
+    timeout: 30s
+  - name: kujira
+    chain-id: kaiyo-1
+    account-prefix: kujira
+    rpc-address: https://kujira-rpc.polkachu.com:443
+    timeout: 30s
+  - name: kyve
+    chain-id: kyve-1
+    account-prefix: kyve
+    rpc-address: https://kyve.rpc.liveraven.net:443
+    timeout: 30s
+  - name: lambda
+    chain-id: lambda_92000-1
+    account-prefix: lamb
+    rpc-address: https://rpc.lambda.nodestake.top:443
+    timeout: 30s
+  - name: likecoin
+    chain-id: likecoin-mainnet-2
+    account-prefix: like
+    rpc-address: http://51.159.223.25:28657:443
+    timeout: 30s
+  - name: loyal
+    chain-id: loyal-main-02
+    account-prefix: loyal
+    rpc-address: https://loyal-rpc.polkachu.com:443
+    timeout: 30s
+  - name: lumenx
+    chain-id: LumenX
+    account-prefix: lumen
+    rpc-address: https://rpc-lumenx.cryptonet.pl:443
+    timeout: 30s
+  - name: lumnetwork
+    chain-id: lum-network-1
+    account-prefix: lum
+    rpc-address: https://lum-rpc.ibs.team:443
+    timeout: 30s
+  - name: mars
+    chain-id: mars-1
+    account-prefix: mars
+    rpc-address: https://mars-rpc.polkachu.com:443
+    timeout: 30s
+  - name: mayachain
+    chain-id: mayachain-mainnet-v1
+    account-prefix: maya
+    rpc-address: https://tendermint.mayachain.info:443
+    timeout: 30s
+  - name: medasdigital
+    chain-id: medasdigital-1
+    account-prefix: medas
+    rpc-address: https://rpc.medas-digital.io:26657:443
+    timeout: 30s
+  - name: meme
+    chain-id: meme-1
+    account-prefix: meme
+    rpc-address: https://meme-rpc.polkachu.com:443
+    timeout: 30s
+  - name: migaloo
     chain-id: migaloo-1
     account-prefix: migaloo
     rpc-address: https://migaloo-rpc.polkachu.com:443
     timeout: 30s
-  - name: Neutron
+  - name: mises
+    chain-id: mainnet
+    account-prefix: mises
+    rpc-address: https://rpc.gw.mises.site:443
+    timeout: 30s
+  - name: mun
+    chain-id: mun-1
+    account-prefix: mun
+    rpc-address: https://rpc.mun.tcnetwork.io:443
+    timeout: 30s
+  - name: neutron
     chain-id: neutron-1
     account-prefix: neutron
     rpc-address: https://rpc.novel.remedy.tm.p2p.org:443
     timeout: 30s
-  - name: DyDx
-    chain-id: dydx-mainnet-1
-    account-prefix: dydx
-    rpc-address: https://dydx-rpc.lavenderfive.com:443
+  - name: nibiru
+    chain-id: cataclysm-1
+    account-prefix: nibi
+    rpc-address: https://nibiru.rpc.kjnodes.com:443
     timeout: 30s
-  - name: Nolus
+  - name: noble
+    chain-id: noble-1
+    account-prefix: noble
+    rpc-address: https://noble-rpc.lavenderfive.com:443
+    timeout: 30s
+  - name: nois
+    chain-id: nois-1
+    account-prefix: nois
+    rpc-address: https://nois-rpc.polkachu.com:443
+    timeout: 30s
+  - name: nolus
     chain-id: pirin-1
     account-prefix: nolus
-    rpc-address: https://pirin-cl.nolus.network:26657
+    rpc-address: https://nolus.rpc.kjnodes.com:443
     timeout: 30s
-  - name: Sei
-    chain-id: pacific-1
-    account-prefix: sei
-    rpc-address: https://sei-rpc.polkachu.com:443
+  - name: nomic
+    chain-id: nomic-stakenet-3
+    account-prefix: nomic
+    rpc-address: https://nomic-rpc.polkachu.com:443
+    timeout: 30s
+  - name: nyx
+    chain-id: nyx
+    account-prefix: n
+    rpc-address: https://rpc.nyx.nodes.guru:443
+    timeout: 30s
+  - name: odin
+    chain-id: odin-mainnet-freya
+    account-prefix: odin
+    rpc-address: https://rpc.odinprotocol.io:443
+    timeout: 30s
+  - name: odin
+    chain-id: odin-mainnet-freya
+    account-prefix: odin
+    rpc-address: https://odin-rpc.lavenderfive.com:443
+    timeout: 30s
+  - name: okexchain
+    chain-id: exchain-66
+    account-prefix: ex
+    rpc-address: https://exchaintmrpc.okex.org:443
+    timeout: 30s
+  - name: omniflixhub
+    chain-id: omniflixhub-1
+    account-prefix: omniflix
+    rpc-address: https://omniflix-rpc.dakshavalidator.in:443
+    timeout: 30s
+  - name: onomy
+    chain-id: onomy-mainnet-1
+    account-prefix: onomy
+    rpc-address: https://rpc-mainnet.onomy.io:443
+    timeout: 30s
+  - name: oraichain
+    chain-id: Oraichain
+    account-prefix: orai
+    rpc-address: https://rpc-orai.blockval.io:443
+    timeout: 30s
+  - name: osmosis
+    chain-id: osmosis-1
+    account-prefix: osmo
+    rpc-address: https://osmosis-rpc.onivalidator.com:443
+    timeout: 30s
+  - name: panacea
+    chain-id: panacea-3
+    account-prefix: panacea
+    rpc-address: https://panacea-rpc.staketab.org:443
+    timeout: 30s
+  - name: passage
+    chain-id: passage-2
+    account-prefix: pasg
+    rpc-address: https://passage-rpc.polkachu.com:443
+    timeout: 30s
+  - name: persistence
+    chain-id: core-1
+    account-prefix: persistence
+    rpc-address: https://persistence-rpc.polkachu.com:443
+    timeout: 30s
+  - name: planq
+    chain-id: planq_7070-2
+    account-prefix: plq
+    rpc-address: https://planq.rpc.skynodejs.net:443
+    timeout: 30s
+  - name: point
+    chain-id: point_10687-1
+    account-prefix: point
+    rpc-address: https://rpc.point.indonode.net:443
+    timeout: 30s
+  - name: provenance
+    chain-id: pio-mainnet-1
+    account-prefix: pb
+    rpc-address: https://rpc.provenance.blockval.io:443
+    timeout: 30s
+  - name: pundix
+    chain-id: PUNDIX
+    account-prefix: px
+    rpc-address: https://px-json.pundix.com:443
+    timeout: 30s
+  - name: pylons
+    chain-id: pylons-mainnet-1
+    account-prefix: pylo
+    rpc-address: https://rpc.nodejumper.io/pylons:443
+    timeout: 30s
+  - name: quasar
+    chain-id: quasar-1
+    account-prefix: quasar
+    rpc-address: https://quasar-rpc.polkachu.com:443
+    timeout: 30s
+  - name: quicksilver
+    chain-id: quicksilver-2
+    account-prefix: quick
+    rpc-address: http://quick.rpc.m.stavr.tech:21027:443
+    timeout: 30s
+  - name: qwoyn
+    chain-id: qwoyn-1
+    account-prefix: qwoyn
+    rpc-address: https://rpc-qwoyn.theamsolutions.info:443
+    timeout: 30s
+  - name: realio
+    chain-id: realionetwork_3301-1
+    account-prefix: realio
+    rpc-address: http://realio.rpc.m.stavr.tech:21097:443
+    timeout: 30s
+  - name: rebus
+    chain-id: reb_1111-1
+    account-prefix: rebus
+    rpc-address: https://rebus-rpc.publicnode.com:443
+    timeout: 30s
+  - name: regen
+    chain-id: regen-1
+    account-prefix: regen
+    rpc-address: https://regen.stakesystems.io:2053:443
+    timeout: 30s
+  - name: rizon
+    chain-id: titan-1
+    account-prefix: rizon
+    rpc-address: https://rpc.rizon.chaintools.tech:443
+    timeout: 30s
+  - name: scorum
+    chain-id: scorum-1
+    account-prefix: scorum
+    rpc-address: https://scorum-blockchain-mainnet-rpc-2.scorum.com:443
+    timeout: 30s
+  - name: secretnetwork
+    chain-id: secret-4
+    account-prefix: secret
+    rpc-address: https://rpc-secret.01node.com:443
+    timeout: 30s
+  - name: sentinel
+    chain-id: sentinelhub-2
+    account-prefix: sent
+    rpc-address: https://rpc.sentinel.chaintools.tech:443
+    timeout: 30s
+  - name: sge
+    chain-id: sgenet-1
+    account-prefix: sge
+    rpc-address: https://sge-rpc.polkachu.com:443
+    timeout: 30s
+  - name: shareledger
+    chain-id: ShareRing-VoyagerNet
+    account-prefix: shareledger
+    rpc-address: https://rpc.explorer.shareri.ng:443
+    timeout: 30s
+  - name: shentu
+    chain-id: shentu-2.2
+    account-prefix: shentu
+    rpc-address: https://shentu-rpc.polkachu.com:443
+    timeout: 30s
+  - name: sifchain
+    chain-id: sifchain-1
+    account-prefix: sif
+    rpc-address: https://sifchain-rpc.polkachu.com:443
+    timeout: 30s
+  - name: six
+    chain-id: sixnet
+    account-prefix: 6x
+    rpc-address: https://sixnet-rpc.sixprotocol.net:443
+    timeout: 30s
+  - name: sommelier
+    chain-id: sommelier-3
+    account-prefix: somm
+    rpc-address: https://sommelier-rpc.polkachu.com:443
+    timeout: 30s
+  - name: source
+    chain-id: source-1
+    account-prefix: source
+    rpc-address: https://source.rpc.moonbridge.team:443
+    timeout: 30s
+  - name: stafihub
+    chain-id: stafihub-1
+    account-prefix: stafi
+    rpc-address: https://public-rpc2.stafihub.io:443
+    timeout: 30s
+  - name: stargaze
+    chain-id: stargaze-1
+    account-prefix: stars
+    rpc-address: https://stargaze-rpc.polkachu.com:443
+    timeout: 30s
+  - name: starname
+    chain-id: iov-mainnet-ibc
+    account-prefix: star
+    rpc-address: https://rpc.starname.app:443
+    timeout: 30s
+  - name: stratos
+    chain-id: stratos-1
+    account-prefix: st
+    rpc-address: https://rpc-stratos.whispernode.com:443
+    timeout: 30s
+  - name: stride
+    chain-id: stride-1
+    account-prefix: stride
+    rpc-address: https://stride-rpc.polkachu.com:443
+    timeout: 30s
+  - name: tenet
+    chain-id: tenet_1559-1
+    account-prefix: tenet
+    rpc-address: https://tenet-rpc.publicnode.com:443
+    timeout: 30s
+  - name: teritori
+    chain-id: teritori-1
+    account-prefix: tori
+    rpc-address: https://teritori-rpc.polkachu.com:443
+    timeout: 30s
+  - name: terpnetwork
+    chain-id: morocco-1
+    account-prefix: terp
+    rpc-address: https://terp.rpc.nodex.one:443
+    timeout: 30s
+  - name: terra
+    chain-id: columbus-5
+    account-prefix: terra
+    rpc-address: https://terra-classic-rpc.publicnode.com:443
+    timeout: 30s
+  - name: terra2
+    chain-id: phoenix-1
+    account-prefix: terra
+    rpc-address: https://terra-rpc.polkachu.com:443
+    timeout: 30s
+  - name: tgrade
+    chain-id: tgrade-mainnet-1
+    account-prefix: tgrade
+    rpc-address: https://rpc.mainnet-1.tgrade.confio.run:443
+    timeout: 30s
+  - name: umee
+    chain-id: umee-1
+    account-prefix: umee
+    rpc-address: https://umee-rpc.polkachu.com:443
+    timeout: 30s
+  - name: unification
+    chain-id: FUND-MainNet-2
+    account-prefix: und
+    rpc-address: https://rpc.unification.chainmasters.ninja:443
+    timeout: 30s
+  - name: ununifi
+    chain-id: ununifi-beta-v1
+    account-prefix: ununifi
+    rpc-address: https://ununifi-rpc.genznodes.dev:443
+    timeout: 30s
+  - name: uptick
+    chain-id: uptick_117-1
+    account-prefix: uptick
+    rpc-address: http://uptick.rpc.m.stavr.tech:3157:443
+    timeout: 30s
+  - name: vidulum
+    chain-id: vidulum-1
+    account-prefix: vdl
+    rpc-address: https://vidulum.rpc.m.stavr.tech:443
+    timeout: 30s
+  - name: xpla
+    chain-id: dimension_37-1
+    account-prefix: xpla
+    rpc-address: https://dimension-rpc.xpla.dev:443
+    timeout: 30s
+  - name: zetachain
+    chain-id: zetachain_7000-1
+    account-prefix: zeta
+    rpc-address: https://zetachain-rpc.lavenderfive.com:443
     timeout: 30s
