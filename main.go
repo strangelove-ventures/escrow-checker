@@ -5,9 +5,12 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"sync"
 	"time"
 
+	"github.com/avast/retry-go/v4"
 	sdktypes "github.com/cosmos/cosmos-sdk/types"
+	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	"github.com/cosmos/gogoproto/proto"
 	transfertypes "github.com/cosmos/ibc-go/v8/modules/apps/transfer/types"
 	chantypes "github.com/cosmos/ibc-go/v8/modules/core/04-channel/types"
@@ -18,12 +21,18 @@ import (
 const (
 	configPath    = "./config/config.yaml"
 	targetChainID = "osmosis-1"
+	maxWorkers    = 1000 // Maximum number of goroutines that will run concurrently while querying escrow information.
 )
 
 var (
 	// targetChannels should be an empty slice if you want to run the escrow checker against every escrow account.
 	// Otherwise, add the channel-ids associated with escrow accounts you want to target.
-	targetChannels = []string{"channel-782", "channel-783"}
+	targetChannels = []string{}
+
+	retries       = uint(7)
+	retryAttempts = retry.Attempts(retries)
+	retryDelay    = retry.Delay(time.Millisecond * 1000)
+	retryError    = retry.LastErrorOnly(true)
 )
 
 type Info struct {
@@ -51,53 +60,104 @@ func main() {
 
 	ctx := context.Background()
 
-	channels, err := queryChannels(ctx, c)
-	if err != nil {
+	fmt.Println("Querying channels...")
+
+	var channels []*chantypes.IdentifiedChannel
+
+	if err := retry.Do(func() error {
+		channels, err = queryChannels(ctx, c)
+		return err
+	}, retry.Context(ctx), retryAttempts, retryDelay, retryError, retry.OnRetry(func(n uint, err error) {
+		fmt.Printf("Failed to query channels, retrying (%d/%d): %s \n", n+1, retries, err.Error())
+	})); err != nil {
 		panic(err)
 	}
 
+	fmt.Printf("Number of channels: %d \n", len(channels))
+
 	// For every channel query the associated escrow account address, the escrow account balances,
 	// and the channel's associated client state in order to identify the counterparty chain.
-	infos := make([]*Info, len(channels))
+	var (
+		sem   = make(chan struct{}, maxWorkers)
+		wg    = sync.WaitGroup{}
+		mu    = sync.Mutex{}
+		infos = make([]*Info, 0)
+	)
+
+	fmt.Println("Querying escrow account information for each channel...")
 	for i, channel := range channels {
-		addr, err := c.QueryEscrowAddress(ctx, channel.PortId, channel.ChannelId)
-		if err != nil {
-			panic(err)
-		}
+		channel := channel
+		i := i
 
-		bals, err := c.QueryBalances(ctx, addr)
-		if err != nil {
-			panic(err)
-		}
+		wg.Add(1)
+		sem <- struct{}{}
 
-		res, err := c.QueryChannelClientState(channel.PortId, channel.ChannelId)
-		if err != nil {
-			panic(err)
-		}
+		fmt.Printf("Starting worker number %d for channel %s \n", i+1, channel.ChannelId)
 
-		cs := &tendermint.ClientState{}
-		err = proto.Unmarshal(res.IdentifiedClientState.ClientState.Value, cs)
-		if err != nil {
-			panic(err)
-		}
+		go func() {
+			defer func() {
+				wg.Done()
+				<-sem
+			}()
 
-		// TODO: debug output that can be removed
-		//fmt.Printf("Escrow Address: %s \n", addr)
-		//for _, bal := range bals.Balances {
-		//	fmt.Printf("Balance: %s \n", bal)
-		//}
+			var (
+				addr string
+				bals *banktypes.QueryAllBalancesResponse
+				res  *chantypes.QueryChannelClientStateResponse
+			)
 
-		infos[i] = &Info{
-			Channel:             channel,
-			EscrowAddress:       addr,
-			Balances:            bals.Balances,
-			CounterpartyChainID: cs.ChainId,
-		}
+			if err := retry.Do(func() error {
+				addr, err = c.QueryEscrowAddress(ctx, channel.PortId, channel.ChannelId)
+				return err
+			}, retry.Context(ctx), retryAttempts, retryDelay, retryError, retry.OnRetry(func(n uint, err error) {
+				fmt.Printf("Failed to query escrow address for %s, retrying (%d/%d): %s \n", channel.ChannelId, n+1, retries, err.Error())
+			})); err != nil {
+				panic(err)
+			}
+
+			if err := retry.Do(func() error {
+				bals, err = c.QueryBalances(ctx, addr)
+				return err
+			}, retry.Context(ctx), retryAttempts, retryDelay, retryError, retry.OnRetry(func(n uint, err error) {
+				fmt.Printf("Failed to query escrow balance for %s, retrying (%d/%d): %s \n", addr, n+1, retries, err.Error())
+			})); err != nil {
+				panic(err)
+			}
+
+			if err = retry.Do(func() error {
+				res, err = c.QueryChannelClientState(channel.PortId, channel.ChannelId)
+				return err
+			}, retry.Context(ctx), retryAttempts, retryDelay, retryError, retry.OnRetry(func(n uint, err error) {
+				fmt.Printf("Failed to query channel client state for %s, retrying (%d/%d): %s \n", channel.ChannelId, n+1, retries, err.Error())
+			})); err != nil {
+				panic(err)
+			}
+
+			cs := &tendermint.ClientState{}
+			err = proto.Unmarshal(res.IdentifiedClientState.ClientState.Value, cs)
+			if err != nil {
+				panic(err)
+			}
+
+			mu.Lock()
+			infos = append(infos, &Info{
+				Channel:             channel,
+				EscrowAddress:       addr,
+				Balances:            bals.Balances,
+				CounterpartyChainID: cs.ChainId,
+			})
+			mu.Unlock()
+		}()
 	}
+
+	wg.Wait()
+	fmt.Println("Finished querying escrow account information.")
 
 	// For each token balance in the escrow accounts, query the IBC denom trace from the hash,
 	// then compose the denom on the counterparty chain and query the tokens total supply.
 	// Assert that the balance in the escrow account is equal to the total supply on the counterparty.
+	fmt.Println("Querying counterparty total supply for each token found in an escrow account...")
+
 	for _, info := range infos {
 		client, err := clients.clientByChainID(info.CounterpartyChainID)
 		if err != nil {
@@ -106,7 +166,11 @@ func main() {
 		}
 
 		for _, bal := range info.Balances {
-			var hash string
+			var (
+				hash   string
+				denom  *transfertypes.DenomTrace
+				amount sdktypes.Coin
+			)
 
 			if strings.Contains(bal.Denom, "ibc/") {
 				parts := strings.Split(bal.Denom, "/")
@@ -116,25 +180,27 @@ func main() {
 				continue
 			}
 
-			denom, err := c.QueryDenomTrace(ctx, hash)
-			if err != nil {
+			if err := retry.Do(func() error {
+				denom, err = c.QueryDenomTrace(ctx, hash)
+				return err
+			}, retry.Context(ctx), retryAttempts, retryDelay, retryError, retry.OnRetry(func(n uint, err error) {
+				fmt.Printf("Failed to query denom trace for %s, retrying (%d/%d): %s \n", hash, n+1, retries, err.Error())
+			})); err != nil {
 				panic(err)
 			}
-
-			// TODO: debug output that can be removed
-			//fmt.Printf("Denom Trace: %s \n", denom)
 
 			path := fmt.Sprintf("%s/%s/%s", info.Channel.Counterparty.PortId, info.Channel.Counterparty.ChannelId, denom.Path)
 			counterpartyDenom := transfertypes.ParseDenomTrace(fmt.Sprintf("%s/%s", path, denom.BaseDenom))
 
-			amount, err := client.QueryBankTotalSupply(ctx, counterpartyDenom.IBCDenom())
-			if err != nil {
+			ibcDenom := counterpartyDenom.IBCDenom()
+			if err := retry.Do(func() error {
+				amount, err = client.QueryBankTotalSupply(ctx, ibcDenom)
+				return err
+			}, retry.Context(ctx), retryAttempts, retryDelay, retryError, retry.OnRetry(func(n uint, err error) {
+				fmt.Printf("Failed to query total supply of %s, retrying (%d/%d): %s \n", ibcDenom, n+1, retries, err.Error())
+			})); err != nil {
 				panic(err)
 			}
-
-			// TODO: debug output that can be removed
-			//fmt.Printf("Escrow account balance: %s \n", bal.Amount)
-			//fmt.Printf("Counterparty Total Supply: %s \n", amount.Amount)
 
 			if !bal.Amount.Equal(amount.Amount) {
 				fmt.Println("--------------------------------------------")
