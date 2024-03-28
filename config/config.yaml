@@ -137,7 +137,7 @@ chains:
   - name: coreum
     chain-id: coreum-mainnet-1
     account-prefix: core
-    rpc-address: https://public.stakewolle.com/cosmos/coreum/rpc:443
+    rpc-address: https://coreum-rpc.publicnode.com:443
     timeout: 30s
   - name: cosmoshub
     chain-id: cosmoshub-4
@@ -512,7 +512,7 @@ chains:
   - name: quicksilver
     chain-id: quicksilver-2
     account-prefix: quick
-    rpc-address: http://quick.rpc.m.stavr.tech:21027:443
+    rpc-address: http://quick.rpc.m.stavr.tech:21027
     timeout: 30s
   - name: qwoyn
     chain-id: qwoyn-1
